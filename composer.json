@@ -10,8 +10,14 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Bhavin Gajjar",
+            "email": "gajjarbhavin22@gmail.com",
+            "role": "Maintainer"
+        },
+        {
             "name": "Joseph Estefane",
-            "email": "estefanejoe@gmail.com"
+            "email": "estefanejoe@gmail.com",
+            "role": "Original Author"
         }
     ],
     "require": {

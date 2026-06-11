@@ -1,46 +1,42 @@
 # Laravel MySQL Spatial extension
 
-[![Build Status](https://img.shields.io/travis/grimzy/laravel-mysql-spatial.svg?style=flat-square)](https://travis-ci.org/grimzy/laravel-mysql-spatial)
-[![Code Climate](https://img.shields.io/codeclimate/maintainability/grimzy/laravel-mysql-spatial.svg?style=flat-square)](https://codeclimate.com/github/grimzy/laravel-mysql-spatial/maintainability)
-[![Code Climate](https://img.shields.io/codeclimate/c/grimzy/laravel-mysql-spatial.svg?style=flat-square&colorB=4BCA2A)](https://codeclimate.com/github/grimzy/laravel-mysql-spatial/test_coverage) [![Packagist](https://img.shields.io/packagist/v/grimzy/laravel-mysql-spatial.svg?style=flat-square)](https://packagist.org/packages/grimzy/laravel-mysql-spatial)
-[![Packagist](https://img.shields.io/packagist/dt/grimzy/laravel-mysql-spatial.svg?style=flat-square)](https://packagist.org/packages/grimzy/laravel-mysql-spatial) [![StyleCI](https://github.styleci.io/repos/83766141/shield?branch=master)](https://github.styleci.io/repos/83766141) 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](LICENSE)
+[![Packagist Version](https://img.shields.io/packagist/v/bhavingajjar/laravel-mysql-spatial.svg?style=flat-square)](https://packagist.org/packages/bhavingajjar/laravel-mysql-spatial)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/bhavingajjar/laravel-mysql-spatial.svg?style=flat-square)](https://packagist.org/packages/bhavingajjar/laravel-mysql-spatial)
+[![license](https://img.shields.io/github/license/bhavingajjar/laravel-mysql-spatial.svg?style=flat-square)](LICENSE)
 
 Laravel package to easily work with [MySQL Spatial Data Types](https://dev.mysql.com/doc/refman/8.0/en/spatial-type-overview.html) and [MySQL Spatial Functions](https://dev.mysql.com/doc/refman/8.0/en/spatial-function-reference.html).
 
+**Maintainer:** [Bhavin Gajjar](https://github.com/bhavingajjar) ([gajjarbhavin22@gmail.com](mailto:gajjarbhavin22@gmail.com))  
+**Packagist:** [bhavingajjar/laravel-mysql-spatial](https://packagist.org/packages/bhavingajjar/laravel-mysql-spatial)  
+**Repository:** [github.com/bhavingajjar/laravel-mysql-spatial](https://github.com/bhavingajjar/laravel-mysql-spatial)
+
+Fork of [grimzy/laravel-mysql-spatial](https://github.com/grimzy/laravel-mysql-spatial) with Laravel 8–13 and PHP 8.3 support. The `Grimzy\LaravelMysqlSpatial\` namespace is unchanged — drop-in replacement with only a Composer package name change.
+
 Please check the documentation for your MySQL version. MySQL's Extension for Spatial Data was added in MySQL 5.5 but many Spatial Functions were changed in 5.6 and 5.7.
 
-**Versions**
+**Versions (this package)**
 
-- `1.x.x`: MySQL 5.6 (also supports MySQL 5.5 but not all spatial analysis functions)
-- `2.x.x`: MySQL 5.7 and 8.0 (Laravel version < 8.0)
-- `3.x.x`: MySQL 8.0 with SRID support (Laravel version < 8.0)
-- **`4.x.x`: MySQL 8.0 with SRID support (Laravel 8+) [Current branch]**
-- `5.x.x`: MySQL 5.7 and 8.0 (Laravel 8+)
+- **`1.0.x`**: Laravel 8–13, PHP 7.3+, MySQL 8.0 with SRID support **[Current]**
+
+For the original grimzy package versioning history, see [grimzy/laravel-mysql-spatial](https://github.com/grimzy/laravel-mysql-spatial).
 
 This package also works with MariaDB. Please refer to the [MySQL/MariaDB Spatial Support Matrix](https://mariadb.com/kb/en/library/mysqlmariadb-spatial-support-matrix/) for compatibility.
 
 ## Installation
 
-Add the package using composer:
+Add the package using Composer:
 
 ```sh
-$ composer require grimzy/laravel-mysql-spatial:^4.0
-
-# or for Laravel version < 8.0
-$ composer require grimzy/laravel-mysql-spatial:^3.0
+composer require bhavingajjar/laravel-mysql-spatial:^1.0
 ```
 
-For MySQL 5.7:
+This installs the latest `1.0.x` release from [Packagist](https://packagist.org/packages/bhavingajjar/laravel-mysql-spatial).
 
-```shell
-$ composer require grimzy/laravel-mysql-spatial:^2.0
-```
+**Migrating from grimzy/laravel-mysql-spatial:** replace the package name in `composer.json` only. No application code or namespace changes are required.
 
-For MySQL 5.6 and 5.5:
-
-```shell
-$ composer require grimzy/laravel-mysql-spatial:^1.0
+```sh
+composer remove grimzy/laravel-mysql-spatial
+composer require bhavingajjar/laravel-mysql-spatial:^1.0
 ```
 
 For Laravel versions before 5.5 or if not using auto-discovery, register the service provider in `config/app.php`:
@@ -448,9 +444,12 @@ $ make start_db V=5.7	# starts MySQL 5.7
 
 ## Contributing
 
-Recommendations and pull request are most welcome! Pull requests with tests are the best! There are still a lot of MySQL spatial functions to implement or creative ways to use spatial functions. 
+Recommendations and pull requests are welcome on [github.com/bhavingajjar/laravel-mysql-spatial](https://github.com/bhavingajjar/laravel-mysql-spatial). Pull requests with tests are the best. 
 
 ## Credits
 
-Originally inspired from [njbarrett's Laravel postgis package](https://github.com/njbarrett/laravel-postgis).
+- **Maintainer:** [Bhavin Gajjar](https://github.com/bhavingajjar) — [gajjarbhavin22@gmail.com](mailto:gajjarbhavin22@gmail.com)
+- **Original package:** [grimzy/laravel-mysql-spatial](https://github.com/grimzy/laravel-mysql-spatial) by Joseph Estefane
+- **Laravel 8–13 compatibility:** based on [Mane-Olawale/laravel-mysql-spatial](https://github.com/Mane-Olawale/laravel-mysql-spatial)
+- Originally inspired by [njbarrett's Laravel postgis package](https://github.com/njbarrett/laravel-postgis)
 
