@@ -53,10 +53,19 @@ class SpatialServiceProvider extends DatabaseServiceProvider
                 'multipolygon'       => MultiPolygon::class,
                 'geometrycollection' => GeometryCollection::class,
             ];
-            $typeNames = array_keys(DoctrineType::getTypesMap());
+            if (method_exists(DoctrineType::class, 'getTypesMap')) {
+                $typeNames = array_keys(DoctrineType::getTypesMap());
+            } else {
+                $typeNames = [];
+            }
+
             foreach ($geometries as $type => $class) {
-                if (!in_array($type, $typeNames)) {
-                    DoctrineType::addType($type, $class);
+                if (!in_array($type, $typeNames, true)) {
+                    try {
+                        DoctrineType::addType($type, $class);
+                    } catch (\Throwable $e) {
+                        // Type may already be registered on DBAL 3+.
+                    }
                 }
             }
         }

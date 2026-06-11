@@ -9,14 +9,21 @@ class Blueprint extends IlluminateBlueprint
     /**
      * Add a geometry column on the table.
      *
-     * @param string   $column
-     * @param null|int $srid
+     * @param string      $column
+     * @param string|null $subtype
+     * @param int         $srid
      *
      * @return \Illuminate\Support\Fluent
      */
-    public function geometry($column, $srid = null)
+    public function geometry($column, $subtype = null, $srid = 0)
     {
-        return $this->addColumn('geometry', $column, compact('srid'));
+        // Backward compatibility: geometry('col', 4326) where second arg was SRID.
+        if (is_int($subtype) && $srid === 0) {
+            $srid = $subtype;
+            $subtype = null;
+        }
+
+        return $this->addColumn('geometry', $column, compact('subtype', 'srid'));
     }
 
     /**
@@ -110,28 +117,4 @@ class Blueprint extends IlluminateBlueprint
         return $this->addColumn('geometrycollection', $column, compact('srid'));
     }
 
-    /**
-     * Specify a spatial index for the table.
-     *
-     * @param string|array $columns
-     * @param string       $name
-     *
-     * @return \Illuminate\Support\Fluent
-     */
-    public function spatialIndex($columns, $name = null)
-    {
-        return $this->indexCommand('spatial', $columns, $name);
-    }
-
-    /**
-     * Indicate that the given index should be dropped.
-     *
-     * @param string|array $index
-     *
-     * @return \Illuminate\Support\Fluent
-     */
-    public function dropSpatialIndex($index)
-    {
-        return $this->dropIndexCommand('dropIndex', 'spatial', $index);
-    }
 }

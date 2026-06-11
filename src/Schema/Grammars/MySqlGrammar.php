@@ -2,16 +2,26 @@
 
 namespace Grimzy\LaravelMysqlSpatial\Schema\Grammars;
 
-use Grimzy\LaravelMysqlSpatial\Schema\Blueprint;
+use Illuminate\Database\Connection;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\MySqlGrammar as IlluminateMySqlGrammar;
 use Illuminate\Support\Fluent;
+use ReflectionClass;
 
 class MySqlGrammar extends IlluminateMySqlGrammar
 {
     const COLUMN_MODIFIER_SRID = 'Srid';
 
-    public function __construct()
+    public function __construct(?Connection $connection = null)
     {
+        // Laravel 12+ requires Connection in parent grammar constructor.
+        if ($connection !== null) {
+            $parentConstructor = (new ReflectionClass(parent::class))->getConstructor();
+            if ($parentConstructor && $parentConstructor->getNumberOfParameters() > 0) {
+                parent::__construct($connection);
+            }
+        }
+
         // Enable SRID as a column modifier
         if (!in_array(self::COLUMN_MODIFIER_SRID, $this->modifiers)) {
             $this->modifiers[] = self::COLUMN_MODIFIER_SRID;
@@ -122,20 +132,25 @@ class MySqlGrammar extends IlluminateMySqlGrammar
      *
      * @return string
      */
+    public function compileSpatialIndex(Blueprint $blueprint, Fluent $command)
+    {
+        return $this->compileKey($blueprint, $command, 'spatial index');
+    }
+
     public function compileSpatial(Blueprint $blueprint, Fluent $command)
     {
-        return $this->compileKey($blueprint, $command, 'spatial');
+        return $this->compileSpatialIndex($blueprint, $command);
     }
 
     /**
      * Get the SQL for a SRID column modifier.
      *
-     * @param \Illuminate\Database\Schema\Blueprint $blueprint
-     * @param Fluent                                $column
+     * @param Blueprint $blueprint
+     * @param Fluent    $column
      *
      * @return string|null
      */
-    protected function modifySrid(\Illuminate\Database\Schema\Blueprint $blueprint, Fluent $column)
+    protected function modifySrid(Blueprint $blueprint, Fluent $column)
     {
         if (!is_null($column->srid) && is_int($column->srid) && $column->srid > 0) {
             return ' srid '.$column->srid;
