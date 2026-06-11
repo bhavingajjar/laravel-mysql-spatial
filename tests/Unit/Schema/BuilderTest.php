@@ -22,4 +22,19 @@ class BuilderTest extends BaseTestCase
 
         $this->assertInstanceOf(Blueprint::class, $blueprint);
     }
+
+    public function testCreateBlueprintUsesReflectionForConstructorSignature()
+    {
+        $connection = Mockery::mock(MysqlConnection::class);
+        $connection->shouldReceive('getSchemaGrammar')->once()->andReturn(null);
+
+        $builder = new Builder($connection);
+        $reflection = new \ReflectionMethod($builder, 'createBlueprint');
+        $reflection->setAccessible(true);
+
+        $blueprint = $reflection->invoke($builder, 'places', function () {
+        });
+
+        $this->assertInstanceOf(Blueprint::class, $blueprint);
+    }
 }

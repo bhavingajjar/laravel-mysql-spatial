@@ -1,8 +1,8 @@
 <?php
 
 use Grimzy\LaravelMysqlSpatial\SpatialServiceProvider;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\DB;
-use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 
 abstract class IntegrationBaseTestCase extends BaseTestCase
 {
@@ -44,7 +44,7 @@ abstract class IntegrationBaseTestCase extends BaseTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -53,13 +53,9 @@ abstract class IntegrationBaseTestCase extends BaseTestCase
         $this->onMigrations(function ($migrationClass) {
             (new $migrationClass())->up();
         });
-
-        //\DB::listen(function($sql) {
-        //    var_dump($sql);
-        //});
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->onMigrations(function ($migrationClass) {
             (new $migrationClass())->down();
@@ -71,30 +67,17 @@ abstract class IntegrationBaseTestCase extends BaseTestCase
     // MySQL 8.0.4 fixed bug #26941370 and bug #88031
     private function isMySQL8AfterFix()
     {
-        $results = DB::select(DB::raw('select version()'));
-        $mysql_version = $results[0]->{'version()'};
+        $results = DB::select('select version() as version');
+        $mysql_version = $results[0]->version;
 
         return version_compare($mysql_version, '8.0.4', '>=');
     }
 
-    protected function assertDatabaseHas($table, array $data, $connection = null)
-    {
-        if (method_exists($this, 'seeInDatabase')) {
-            $this->seeInDatabase($table, $data, $connection);
-        } else {
-            parent::assertDatabaseHas($table, $data, $connection);
-        }
-    }
-
     protected function assertException($exceptionName, $exceptionMessage = null)
     {
-        if (method_exists(parent::class, 'expectException')) {
-            parent::expectException($exceptionName);
-            if (!is_null($exceptionMessage)) {
-                $this->expectExceptionMessage($exceptionMessage);
-            }
-        } else {
-            $this->setExpectedException($exceptionName, $exceptionMessage);
+        $this->expectException($exceptionName);
+        if (!is_null($exceptionMessage)) {
+            $this->expectExceptionMessage($exceptionMessage);
         }
     }
 

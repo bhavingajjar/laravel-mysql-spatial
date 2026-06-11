@@ -13,7 +13,7 @@ class MysqlConnection extends IlluminateMySqlConnection
     {
         parent::__construct($pdo, $database, $tablePrefix, $config);
 
-        if (class_exists(DoctrineType::class)) {
+        if (class_exists(DoctrineType::class) && method_exists($this, 'getDoctrineSchemaManager')) {
             // Prevent geometry type fields from throwing a 'type not found' error when changing them
             $geometries = [
                 'geometry',
@@ -40,7 +40,17 @@ class MysqlConnection extends IlluminateMySqlConnection
      */
     protected function getDefaultSchemaGrammar()
     {
-        return $this->withTablePrefix(new MySqlGrammar());
+        $grammar = new MySqlGrammar($this);
+
+        if (method_exists($grammar, 'setConnection')) {
+            $grammar->setConnection($this);
+        }
+
+        if (method_exists($this, 'withTablePrefix')) {
+            return $this->withTablePrefix($grammar);
+        }
+
+        return $grammar;
     }
 
     /**
