@@ -25,29 +25,10 @@ This package also works with MariaDB. Please refer to the [MySQL/MariaDB Spatial
 Add the package using composer:
 
 ```sh
-# Laravel 11–13 / PHP 8.1+ (this fork)
-$ composer require bhavingajjar/laravel-mysql-spatial:^5.0
-
-# Laravel 8–10 (original package)
-$ composer require grimzy/laravel-mysql-spatial:^4.0
-
-# Laravel version < 8.0
-$ composer require grimzy/laravel-mysql-spatial:^3.0
+$ composer require bhavingajjar/laravel-mysql-spatial:^1.0
 ```
 
-For MySQL 5.7:
-
-```shell
-$ composer require grimzy/laravel-mysql-spatial:^2.0
-```
-
-For MySQL 5.6 and 5.5:
-
-```shell
-$ composer require grimzy/laravel-mysql-spatial:^1.0
-```
-
-> **Note:** This repository is published on Packagist as [`bhavingajjar/laravel-mysql-spatial`](https://packagist.org/packages/bhavingajjar/laravel-mysql-spatial). The original [`grimzy/laravel-mysql-spatial`](https://packagist.org/packages/grimzy/laravel-mysql-spatial) package is maintained separately and does not include Laravel 11–13 support.
+> **Note:** This is a fresh fork published as [`bhavingajjar/laravel-mysql-spatial`](https://packagist.org/packages/bhavingajjar/laravel-mysql-spatial). For older Laravel versions, see the original [`grimzy/laravel-mysql-spatial`](https://packagist.org/packages/grimzy/laravel-mysql-spatial) package.
 
 For Laravel versions before 5.5 or if not using auto-discovery, register the service provider in `config/app.php`:
 
